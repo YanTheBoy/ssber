@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/trace"
@@ -13,6 +14,9 @@ import (
 )
 
 func (h *OfferingImpl) GetFlat(w http.ResponseWriter, r *http.Request, flatId string, params gen.GetFlatParams) {
+	h.log.Info(fmt.Sprintf("Get Flat %s by user %s",flatId, params.XUserID))
+
+
 	// TODO add validation
 	if params.XUserID <= 0 {
 		writeAuthError(w)

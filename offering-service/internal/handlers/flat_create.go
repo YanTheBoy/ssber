@@ -13,6 +13,7 @@ import (
 )
 
 func (h *OfferingImpl) CreateFlat(w http.ResponseWriter, r *http.Request, params gen.CreateFlatParams) {
+	h.log.Info("Create Flat by user ", params.XUserID)
 	// TODO add validation
 	if params.XUserID <= 0 {
 		writeAuthError(w)
