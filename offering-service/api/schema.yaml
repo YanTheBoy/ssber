@@ -1,0 +1,141 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Flat API
+  description: API для управления квартирами
+
+paths:
+  /flats:
+    post:
+      summary: Создать новую квартиру
+      parameters:
+        - in: header
+          name: X-User-ID
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      operationId: CreateFlat
+      tags:
+        - flat
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Уютная квартира"
+                description:
+                  type: string
+                  example: "ул. Ленина, д. 1"
+                price:
+                  type: integer
+                  example: 50000
+      responses:
+        201:
+          description: flat created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Flat'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /flats/{flat_id}:
+    get:
+      summary: Получить информацию о квартире
+
+      operationId: GetFlat
+      tags:
+        - flat
+      parameters:
+        - in: path
+          name: flat_id
+          required: true
+          schema:
+            type: string
+            example: "12345"
+        - in: header
+          name: X-User-ID
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: flat created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Flat'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+components:
+  parameters:
+    X-User-ID:
+      in: header
+      name: X-User-ID
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Description of the error
+      required:
+        - error
+
+    Flat:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - price
+        - created_at
+      properties:
+        id:
+          type: string
+          description: The ID of the flat
+        name:
+          type: string
+          description: The ID of the flat
+        description:
+          type: string
+          description: The ID of the flat
+        created_at:
+          type: string
+          format: datetime
+          description: The date and time the flat was created
+        price:
+          type: integer
+          description: The total price of the flat

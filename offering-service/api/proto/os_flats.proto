@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option go_package = "./offering-service-api";
+
+service FlatsService {
+  rpc CreateFlat(CreateFlatRequest) returns (Flat) {}
+}
+
+message CreateFlatRequest {
+  string id = 1;
+  string name = 2;
+  FlatType type = 3;
+  string price = 4;
+  string created_by = 5;
+}
+
+enum FlatType {
+  FLAT_TYPE_UNSPECIFIED = 0;
+  FLAT_TYPE_APARTMENT = 1;
+  FLAT_TYPE_ROOM = 2;
+}
+
+message Flat {
+  string id = 1;
+  string name = 2;
+
+}
