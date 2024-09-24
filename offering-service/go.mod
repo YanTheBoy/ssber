@@ -3,9 +3,11 @@ module offering-service
 go 1.22.0
 
 require (
+	github.com/caarlos0/env v3.5.0+incompatible
 	github.com/getkin/kin-openapi v0.127.0
 	github.com/go-chi/chi/v5 v5.1.0
 	github.com/jackc/pgx/v5 v5.7.1
+	github.com/joho/godotenv v1.5.1
 	github.com/lib/pq v1.10.9
 	github.com/lmittmann/tint v1.0.5
 	github.com/oapi-codegen/nethttp-middleware v1.0.2

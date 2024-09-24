@@ -102,7 +102,7 @@ func main() {
 	}
 
 	go func() {
-		log.Info("Listen and Serve addr on", cfg.ServerAddress)
+		log.Info("Listen and Serve on", "address", cfg.ServerAddress)
 		if err := s.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.WithError(err, "stop listening")
 			stop()

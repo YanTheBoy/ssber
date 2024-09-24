@@ -11,7 +11,7 @@ type FlatsStorage struct {
 }
 
 func NewClient(cfg *config.Config) (*FlatsStorage, error) {
-	db, err := sql.Open("postgres", "postgres://postgres:postgres@localhost:5438/postgres?sslmode=disable")
+	db, err := sql.Open("postgres", cfg.PostgresConn)
 	if err != nil {
 		return &FlatsStorage{}, err
 	}
