@@ -1,0 +1,45 @@
+version: "3.9"
+
+networks:
+  common:
+    external: true
+    name: common
+
+services:
+  postgres:
+    image: postgres:13
+    ports:
+      - "5438:5432"  # Добавлены кавычки для консистентности
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD=postgres
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - offering-service-pg-volume:/var/lib/postgresql/data
+    container_name: offering-service-postgres
+    networks:
+      - common
+
+  app:
+    build:
+      context: ../..
+      dockerfile: internal/build/Dockerfile
+    environment:
+      LISTEN_ADDR: "0.0.0.0"
+      LISTEN_PORT: "8082"
+      DRIVER_SERVICE_LOCATION: "driver-service:8001"
+      # Используйте имя контейнера для подключения к postgres из app контейнера
+      DATABASE_URL: "postgres://postgres:postgres@offering-service-postgres:5432/postgres?sslmode=disable"
+      JAEGER_ENDPOINT_URL: "http://jaeger:14268/api/traces"
+      ENV: "prod"
+    ports:
+      - "8082:9090"
+    networks:
+      - common
+    labels:
+      logging: promtail
+      prometheus-job: true
+    container_name: offering-service
+
+volumes:
+  offering-service-pg-volume:
